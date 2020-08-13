@@ -1,0 +1,7 @@
+from django.urls import path
+from . import views
+
+urlpatterns = [
+            path('', views.index, name ='index'),
+            path('app/', views.pdf_view, name ='pdf_view')
+]
