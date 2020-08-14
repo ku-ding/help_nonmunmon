@@ -10,7 +10,7 @@ def login(request):
  response_data = {}
 
  if request.method == "GET" :
-        return render(request, 'login.html')
+        return render(request, 'login/login.html')
 
  elif request.method == "POST":
         login_username = request.POST.get('username', None)
@@ -31,4 +31,4 @@ def login(request):
             except:
                     response_data['error'] = "없는 아이디 입니다."
 
-        return render(request, 'login.html',response_data)
+        return render(request, 'login/login.html',response_data)
