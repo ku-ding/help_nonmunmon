@@ -247,7 +247,7 @@ function getViewerConfiguration() {
     },
     printContainer: document.getElementById("printContainer"),
     openFileInputName: "fileInput",
-    debuggerScriptPath: "./debugger.js"
+    debuggerScriptPath: "/static/js/debugger.js"
   };
 }
 
@@ -752,7 +752,7 @@ const PDFViewerApplication = {
   },
 
   setTitleUsingUrl(url = "") {
-    this.url = url;
+    this.url = url; // {{file}}
     this.baseUrl = url.split("#")[0];
     let title = (0, _ui_utils.getPDFFileNameFromURL)(url, "");
 
@@ -765,6 +765,7 @@ const PDFViewerApplication = {
     }
 
     this.setTitle(title);
+    
   },
 
   setTitle(title) {
@@ -836,7 +837,7 @@ const PDFViewerApplication = {
     const parameters = Object.create(null);
 
     if (typeof file === "string") {
-      this.setTitleUsingUrl(file);
+      this.setTitleUsingUrl(file);//here {{file}}
       parameters.url = file;
     } else if (file && "byteLength" in file) {
       parameters.data = file;
@@ -3535,7 +3536,7 @@ const defaultOptions = {
     kind: OptionKind.VIEWER + OptionKind.PREFERENCE
   },
   imageResourcesPath: {
-    value: "/static/images/",
+    value: "/static/css/images/",
     kind: OptionKind.VIEWER
   },
   maxCanvasPixels: {
