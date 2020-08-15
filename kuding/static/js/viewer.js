@@ -128,6 +128,22 @@ let pdfjsWebApp, pdfjsWebAppOptions;
   __webpack_require__(38);
 }
 
+
+function selectText() {
+  var selectionText = "";
+  if (document.getSelection) {
+      selectionText = document.getSelection();
+  } else if (document.selection) {
+      selectionText = document.selection.createRange().text;
+  }
+  return selectionText;
+}
+
+document.onmouseup = function() {
+  document.getElementById("text_box").innerHTML = selectText();
+}
+
+
 function getViewerConfiguration() {
   return {
     appContainer: document.body,
@@ -247,7 +263,7 @@ function getViewerConfiguration() {
     },
     printContainer: document.getElementById("printContainer"),
     openFileInputName: "fileInput",
-    debuggerScriptPath: "./debugger.js"
+    debuggerScriptPath: "/static/js/debugger.js"
   };
 }
 
@@ -3491,7 +3507,7 @@ const defaultOptions = {
     kind: OptionKind.VIEWER + OptionKind.PREFERENCE
   },
   defaultUrl: {
-    value: '/static/pdf/antarctica.pdf',	  
+    value: "compressed.tracemonkey-pldi-09.pdf",
     kind: OptionKind.VIEWER
   },
   defaultZoomValue: {
@@ -3535,7 +3551,7 @@ const defaultOptions = {
     kind: OptionKind.VIEWER + OptionKind.PREFERENCE
   },
   imageResourcesPath: {
-    value: "/static/images/",
+    value: "/static/css/images/",
     kind: OptionKind.VIEWER
   },
   maxCanvasPixels: {
@@ -6733,21 +6749,6 @@ function isDestHashesEqual(destHash, pushHash) {
   return false;
 }
 
-function selectText() {
-  var selectionText = "";
-  if (document.getSelection) {
-      selectionText = document.getSelection();
-  } else if (document.selection) {
-      selectionText = document.selection.createRange().text;
-  }
-  return selectionText;
-}
-
-document.onmouseup = function() {
-  document.getElementById("console").innerHTML = selectText();
- }
-
-
 function isDestArraysEqual(firstDest, secondDest) {
   function isEntryEqual(first, second) {
     if (typeof first !== typeof second) {
@@ -7924,7 +7925,6 @@ class PDFSidebarResizer {
     });
     const _boundEvents = this._boundEvents;
     id = "console";
-
     window.removeEventListener("mousemove", _boundEvents.mouseMove);
     window.removeEventListener("mouseup", _boundEvents.mouseUp);
   }
