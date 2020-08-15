@@ -14,8 +14,7 @@
  */
 
 
-
-.textLayer {
+ .textLayer {
   position: absolute;
   left: 0;
   top: 0;
@@ -430,7 +429,7 @@ html {
 body {
   height: 100%;
   width: 100%;
-  background-color: rgba(64, 64, 64, 1);
+  background-color: white;
   background-image: url(images/texture.png);
 }
 
@@ -546,9 +545,16 @@ select {
 }
 
 #outerContainer {
-  width: 100%;
+  width: 70%;
   height: 100%;
   position: relative;
+  float: left;
+}
+
+#TextContiner {
+  width: 20%;
+  height: 100%;
+  float: right;
 }
 
 #sidebarContainer {
@@ -615,6 +621,7 @@ html[dir='rtl'] #outerContainer.sidebarOpen #sidebarContainer {
   bottom: 0;
   left: 0;
   min-width: 320px;
+  background-color: gray;
 }
 
 #sidebarContent {
@@ -2413,7 +2420,7 @@ html[dir='rtl'] #documentPropertiesOverlay .row > * {
 
 @media all and (max-width: 700px) {
   #outerContainer .hiddenMediumView {
-    display: none;
+    display: none
   }
   #outerContainer .visibleMediumView {
     display: inherit;
