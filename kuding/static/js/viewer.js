@@ -128,6 +128,22 @@ let pdfjsWebApp, pdfjsWebAppOptions;
   __webpack_require__(38);
 }
 
+
+function selectText() {
+  var selectionText = "";
+  if (document.getSelection) {
+      selectionText = document.getSelection();
+  } else if (document.selection) {
+      selectionText = document.selection.createRange().text;
+  }
+  return selectionText;
+}
+
+document.onmouseup = function() {
+  document.getElementById("text_box").innerHTML = selectText();
+}
+
+
 function getViewerConfiguration() {
   return {
     appContainer: document.body,
@@ -752,7 +768,7 @@ const PDFViewerApplication = {
   },
 
   setTitleUsingUrl(url = "") {
-    this.url = url; // {{file}}
+    this.url = url;
     this.baseUrl = url.split("#")[0];
     let title = (0, _ui_utils.getPDFFileNameFromURL)(url, "");
 
@@ -765,7 +781,6 @@ const PDFViewerApplication = {
     }
 
     this.setTitle(title);
-    
   },
 
   setTitle(title) {
@@ -837,7 +852,7 @@ const PDFViewerApplication = {
     const parameters = Object.create(null);
 
     if (typeof file === "string") {
-      this.setTitleUsingUrl(file);//here {{file}}
+      this.setTitleUsingUrl(file);
       parameters.url = file;
     } else if (file && "byteLength" in file) {
       parameters.data = file;
@@ -3492,7 +3507,7 @@ const defaultOptions = {
     kind: OptionKind.VIEWER + OptionKind.PREFERENCE
   },
   defaultUrl: {
-    value: '/static/pdf/antarctica.pdf',	  
+    value: "compressed.tracemonkey-pldi-09.pdf",
     kind: OptionKind.VIEWER
   },
   defaultZoomValue: {
@@ -6734,21 +6749,6 @@ function isDestHashesEqual(destHash, pushHash) {
   return false;
 }
 
-function selectText() {
-  var selectionText = "";
-  if (document.getSelection) {
-      selectionText = document.getSelection();
-  } else if (document.selection) {
-      selectionText = document.selection.createRange().text;
-  }
-  return selectionText;
-}
-
-document.onmouseup = function() {
-  document.getElementById("console").innerHTML = selectText();
- }
-
-
 function isDestArraysEqual(firstDest, secondDest) {
   function isEntryEqual(first, second) {
     if (typeof first !== typeof second) {
@@ -7925,7 +7925,6 @@ class PDFSidebarResizer {
     });
     const _boundEvents = this._boundEvents;
     id = "console";
-
     window.removeEventListener("mousemove", _boundEvents.mouseMove);
     window.removeEventListener("mouseup", _boundEvents.mouseUp);
   }
