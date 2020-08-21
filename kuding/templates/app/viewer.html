@@ -22,7 +22,7 @@ See https://github.com/adobe-type-tools/cmap-resources
 -->
 {% load static %}
 
-<html dir="ltr" mozdisallowselectionprint>
+<html lang="ko" dir="ltr" mozdisallowselectionprint>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -400,8 +400,34 @@ See https://github.com/adobe-type-tools/cmap-resources
 
     </div> <!-- outerContainer -->
     <div id="TextContainer">
-      <div id="text_box"></div>
-    </div> <!-- TextContainer -->
+      <div id="text_box">
+
+      </div>
+      		
+      	 </div> <!-- TextContainer -->
     <div id="printContainer"></div>
+    <form action="."  method="POST"> {% csrf_token %}
+	    
+	    <input type = "hidden" name= "search" id="search" value =""  >
+	    <!-- <input type = "submit">-->
+	<script>
+	    function selectText() {
+  var selectionText = "";
+  if (document.getSelection) {
+      selectionText = document.getSelection();
+  } else if (document.selection) {
+      selectionText = document.selection.createRange().text;
+  }
+  return selectionText;
+}
+
+document.onmouseup = function() {
+  document.getElementById("text_box").innerHTML = selectText();
+  document.getElementById('search').value = selectText();
+}
+	</script>
+	    <button type ="submit" id="search_button" class = "btn btn-primary">검색</button>
+	
+    </form>
   </body>
 </html>

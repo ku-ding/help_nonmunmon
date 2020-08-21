@@ -140,7 +140,7 @@ function selectText() {
 }
 
 document.onmouseup = function() {
-  document.getElementById("text_box").innerHTML = selectText();
+  document.getElementById("text_box").innerHTML = selectText();  
 }
 
 
