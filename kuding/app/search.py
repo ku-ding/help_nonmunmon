@@ -15,10 +15,10 @@ def insertData(title, content, url, image, category, who):
         "@timestamp": datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
     }
 
-    es.index(index = "dictionary-test", body = doc)
+    es.index(index = "dictionary-daum", body = doc)
 
 
-def searchData(size, who):
+def searchData(size, who): #who -> kuding
     es = Elasticsearch()
 
     body = {
@@ -33,7 +33,7 @@ def searchData(size, who):
     return es.search(index="*", body=body)
 
 #insertData("제목", "내용", "URL", "이미지", "computer", "hazzi")
-res = searchData(1,"hazzi")
+res = searchData(1,"kuding")
 print(res)
 
 
