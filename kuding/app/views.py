@@ -30,11 +30,6 @@ def pdf_view(request):
 def post_result(request):
     if request.method == 'POST':
         keyword = request.POST.get('search_key', None)
-        print(keyword)#it is None!!!!!
-
-        message = "임시 데이터. 적절하게 수정할 필요가 있다."
-
-        context = {'secret_key': message }
 
         keywords={'keyword': keyword}
         # return render(request, 'app/viewer.html', keyword)

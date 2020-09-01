@@ -1,7 +1,9 @@
 {% load bootstrap4 %}
 {% load static %}
 
-<html>
+<!DOCTYPE html>
+
+<html lang="ko">
 <head>
     <link rel="icon"  href="{% static 'www/facvicon.ico' %}">
     <meta charset="utf-8" />
@@ -16,7 +18,7 @@
     <div class="container">
         <nav class="navbar">
             <a href="{% url 'root' %}" class="navbar-brand">
-                    <img src='{% static "kuding.jpg" %}'   class="img-rounded" width="100" height="100">
+                    <img src='{% static "kuding.jpg" %}'   class="img-rounded" width="100" height="100" alt="kuding-logo">
                 KUDING
             </a>
 
