@@ -21,7 +21,7 @@ Adobe CMap resources are covered by their own copyright but the same license:
 See https://github.com/adobe-type-tools/cmap-resources
 -->
 {% load static %}
-
+{% load bootstrap4 %}
 <html lang="ko" dir="ltr" mozdisallowselectionprint>
   <head>
     <meta charset="utf-8">
@@ -40,6 +40,8 @@ See https://github.com/adobe-type-tools/cmap-resources
 
 
     <script src="{% static 'js/viewer.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
   </head>
 
@@ -400,34 +402,126 @@ See https://github.com/adobe-type-tools/cmap-resources
 
     </div> <!-- outerContainer -->
     <div id="TextContainer">
-      <div id="text_box">
+      <nav class="navbar">
+        <div id="printContainer"></div>
+       
+         <form id = myform action="."  method="POST"> {% csrf_token %}
+           <input type= "hidden" name="title" id = "title" value="">
+           <input type = "text" name= "search" id="search" value =""  >
+           <input type ="button" id="search_button" value ="검색" class = "btn btn-primary" ></input>
+         </form>
 
-      </div>
-      		
-      	 </div> <!-- TextContainer -->
-    <div id="printContainer"></div>
-    <form action="."  method="POST"> {% csrf_token %}
-	    
-	    <input type = "hidden" name= "search" id="search" value =""  >
-	    <!-- <input type = "submit">-->
-	<script>
-	    function selectText() {
-  var selectionText = "";
-  if (document.getSelection) {
-      selectionText = document.getSelection();
-  } else if (document.selection) {
-      selectionText = document.selection.createRange().text;
+     
+             <!-- <input type = "submit">-->
+             
+           <!--
+         {% if text_box.value %}-->
+          
+           <!--{%else}
+           <a href="{% url 'login' %}" class="btn btn-outline-danger">로그인</a>
+           <a href="{% url 'signup' %}" class="btn btn-danger">회원가입</a>
+         {% endif %}
+           -->
+
+ </nav>
+ <div id="btm_pt">
+  <div  id="text_box"></div>
+  <footer id= "fooc">
+    <div id ="container_tkqwlf">
+       <!-- <article>
+    //   title : {{Keywords}} <br>
+    //   content: {{content}}<br>
+    //   image : {{image}}
+      
+    // </article>-->
+    </div> 
+  </footer>
+
+  
+ </div>
+    
+</div> <!-- TextContainer -->
+   
+
+<script>
+           
+  function selectText() {
+    var selectionText = "";
+     if (document.getSelection) {
+         selectionText = document.getSelection();
+     } else if (document.selection) {
+         selectionText = document.selection.createRange().text;
+     }
+      return selectionText;
   }
-  return selectionText;
-}
+  document.onmouseup = function() {
+    //  document.getElementById("text_box").innerHTML = selectText();
+     document.getElementById('search').value = selectText();
+     document.getElementById('title').value = document.body.childNodes[3].childNodes[5].childNodes[13].childNodes[1].textContent;
+  }
+  document.getElementById("search_button").addEventListener("click", function(){
+      alert('button');
+      var search_key = document.getElementById("search").value;
+      alert(search_key);
+      $.ajax({ 
+        type: "POST",
+        url: '/app/request', 
+        data : ({'search_key': search_key})
+        , 
+      
+        success:function(keyword){ 
+          alert('hoho');
+          // alert();
+          // var a = document.createElement( 'input' );
+          // alert('h');   
+          // // a.setAttribute('type', 'text');
+          // alert('ha');   
+          // a.setAttribute('value', keyword["keyword"]);
+          // alert(JSON.stringify(a));  
+         
+          alert('haid');
+          var txt = JSON.parse(JSON.stringify(keyword));
+          //var txt = JSON.parse(keyword);
+          alert(txt['keyword']);
+          //  document.getElementById('container_tkqwlf').innerHTML = "ttx.keyword";
+          $("#container_tkqwlf").html(txt['keyword']).prependTo("container_tkqwlf");
+          //  document.getElementbyId("container").html("제발 되자 진짜.<br>")
+          //  .append (JSON.stringify(keyword)); 
+          alert('haahahahahahahahaha');
+        },
+        error: function(request, status, error) {
+            alert(error); 
+        }
+      
+      });
+    });
+    
+   // funclition create(a){
+   //   var button = document.createElement( 'input' );
+   //   button.setAttribute('type', 'submit');
+   //   button.setAttribute('id', 'search_button');
+   //   button.setAttribute('class', "btn btn-primary");
+   //   button.setAttribute('value', '검색');
+   //   button.onclick= function(){
+   //     document.getElementById("myform").submit();  
+   //   }
 
-document.onmouseup = function() {
-  document.getElementById("text_box").innerHTML = selectText();
-  document.getElementById('search').value = selectText();
-}
-	</script>
-	    <button type ="submit" id="search_button" class = "btn btn-primary">검색</button>
-	
-    </form>
+   //   if(a == ''){
+   //     button.parentNode.removeChild(button);
+   //   }
+
+   //   else{
+   //     document.getElementById("text_box").appendChild( button );
+       
+   //   }
+    
+     
+   // }
+   // function goPost(){
+   //   document.getElementById("myform").submit()
+   // }
+</script>
+         
   </body>
 </html>
+
