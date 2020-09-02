@@ -1,9 +1,7 @@
 {% load bootstrap4 %}
 {% load static %}
 
-<!DOCTYPE html>
-
-<html lang="ko">
+<html>
 <head>
     <link rel="icon"  href="{% static 'www/facvicon.ico' %}">
     <meta charset="utf-8" />
@@ -18,7 +16,7 @@
     <div class="container">
         <nav class="navbar">
             <a href="{% url 'root' %}" class="navbar-brand">
-                    <img src='{% static "kuding.jpg" %}'   class="img-rounded" width="100" height="100" alt="kuding-logo">
+                    <img src='{% static "kuding.jpg" %}'   class="img-rounded" width="100" height="100">
                 KUDING
             </a>
 
@@ -26,7 +24,6 @@
 
             <div>
                 {% if user.is_authenticated %}
-                    <a href="{% url 'app:index' %}" class="btn btn-danger">업로드</a>
                     <a href="{% url 'logout' %}" class="btn btn-outline-info">로그아웃</a>
                 {% else %}
                     <a href="{% url 'login' %}" class="btn btn-outline-danger">로그인</a>

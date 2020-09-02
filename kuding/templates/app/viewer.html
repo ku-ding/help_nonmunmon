@@ -50,7 +50,7 @@ See https://github.com/adobe-type-tools/cmap-resources
     <div id = "top"></div>
     <div id = "bottom"></div>  
     </div>
-
+  
     <div id="outerContainer">
 
       <div id="sidebarContainer">
@@ -401,43 +401,53 @@ See https://github.com/adobe-type-tools/cmap-resources
       </div>  <!-- overlayContainer -->
 
     </div> <!-- outerContainer -->
+  
     <div id="TextContainer">
+      {% block content %}
+      
+    <div class = "container">
+      <div class = "jumbotron ">
+          <h2 class="text-center">{{id}}님</h2> 
+      </div>
+    </div>
+    
+      <div id="printContainer"></div>
+
+      <form id= 'input_data' action = "{% url 'app:post_data' %}" method="POST">{% csrf_token %}
+        <input type="hidden" name ="user_id" id = "user_id" value = {{id}}>
+          title: <input type= "text"  name="title_data" id="title_data" value ="" >
+         <!-- 카테고리는 체크 박스 형태로 만드는 게 나을 듯  -->
+          category: <input type= "text"  name="category" id="category" value ="">
+        <button type = "submit" id="post_data" class = "btn btn-primary">제출</button>
+      
+      </form>
+     
+     {% endblock %}
+
       <nav class="navbar">
-        <div id="printContainer"></div>
-       
-         <form id = myform action="."  method="POST"> {% csrf_token %}
+    
+       <!-- 여기를 꾸밉시다. -->
+         <form id = 'myform' action="."  method="POST"> {% csrf_token %}
            <input type= "hidden" name="title" id = "title" value="">
            <input type = "text" name= "search" id="search" value =""  >
            <input type ="button" id="search_button" value ="검색" class = "btn btn-primary" ></input>
          </form>
 
-     
-             <!-- <input type = "submit">-->
-             
-           <!--
-         {% if text_box.value %}-->
-          
-           <!--{%else}
-           <a href="{% url 'login' %}" class="btn btn-outline-danger">로그인</a>
-           <a href="{% url 'signup' %}" class="btn btn-danger">회원가입</a>
-         {% endif %}
-           -->
-
  </nav>
+
  <div id="btm_pt">
+
   <div  id="text_box"></div>
+ 
   <footer id= "fooc">
-    <div id ="container_tkqwlf">
-       <!-- <article>
-    //   title : {{Keywords}} <br>
-    //   content: {{content}}<br>
-    //   image : {{image}}
-      
-    // </article>-->
+    <div id ="container_search">
+      <article>
+       <!-- title : {{Keywords}} <br>
+       content: {{content}}<br>
+       image : {{image}} -->
+      </article>
     </div> 
   </footer>
-
-  
  </div>
     
 </div> <!-- TextContainer -->
@@ -455,39 +465,27 @@ See https://github.com/adobe-type-tools/cmap-resources
       return selectionText;
   }
   document.onmouseup = function() {
-    //  document.getElementById("text_box").innerHTML = selectText();
-     document.getElementById('search').value = selectText();
-     document.getElementById('title').value = document.body.childNodes[3].childNodes[5].childNodes[13].childNodes[1].textContent;
+    if(selectText() != ""){
+      document.getElementById('search').value = selectText();    
+    }
+    else { 
+      
+     // bring whole text
+     //  document.getElementById('title').value = document.body.childNodes[3].childNodes[5].childNodes[13].childNodes[1].textContent;
+    }
   }
-  document.getElementById("search_button").addEventListener("click", function(){
-      alert('button');
+     document.getElementById("search_button").addEventListener("click", function(){
+     
       var search_key = document.getElementById("search").value;
-      alert(search_key);
+
       $.ajax({ 
         type: "POST",
         url: '/app/request', 
         data : ({'search_key': search_key})
         , 
-      
         success:function(keyword){ 
-          alert('hoho');
-          // alert();
-          // var a = document.createElement( 'input' );
-          // alert('h');   
-          // // a.setAttribute('type', 'text');
-          // alert('ha');   
-          // a.setAttribute('value', keyword["keyword"]);
-          // alert(JSON.stringify(a));  
-         
-          alert('haid');
           var txt = JSON.parse(JSON.stringify(keyword));
-          //var txt = JSON.parse(keyword);
-          alert(txt['keyword']);
-          //  document.getElementById('container_tkqwlf').innerHTML = "ttx.keyword";
-          $("#container_tkqwlf").html(txt['keyword']).prependTo("container_tkqwlf");
-          //  document.getElementbyId("container").html("제발 되자 진짜.<br>")
-          //  .append (JSON.stringify(keyword)); 
-          alert('haahahahahahahahaha');
+          $("#container_search").html(txt['keyword']).prependTo("container_searcn");
         },
         error: function(request, status, error) {
             alert(error); 
@@ -496,6 +494,7 @@ See https://github.com/adobe-type-tools/cmap-resources
       });
     });
     
+  //add to dynamic button for advanced code
    // funclition create(a){
    //   var button = document.createElement( 'input' );
    //   button.setAttribute('type', 'submit');
