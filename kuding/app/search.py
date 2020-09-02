@@ -5,7 +5,7 @@ from datetime import datetime
 def insertData(title, content, url, image, category, who):
     es = Elasticsearch()
 
-    doc = {
+    doc = {   
         "title": title,
         "contenct": content,
         "imgae": image,
@@ -15,25 +15,53 @@ def insertData(title, content, url, image, category, who):
         "@timestamp": datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
     }
 
-    es.index(index = "dictionary-daum", body = doc)
+    es.index(index = "dictionary-user", body = doc)
 
 
-def searchData(size, who): #who -> kuding
+def searchDataContent(title, content):
     es = Elasticsearch()
-
-    body = {
-        "size": size,
+    body = {           
         "query": {
-            "match": {
-                "who": who
-            }
-        }
+		    "bool": {
+		        "should": [{ "match": { "content" : content} }], 
+                "must": [{ "match": {"title": title} }]
+		    }
+	    },
+	    "_source": {
+		    "includes": ["title", "content", "category", "image", "url", "who"]
+	    }
     }
 
-    return es.search(index="*", body=body)
+    return es.search(index="dictionary-*", body=body)
 
-#insertData("제목", "내용", "URL", "이미지", "computer", "hazzi")
-res = searchData(1,"kuding")
-print(res)
+def searchDataCategory(title, category):
+    es = Elasticsearch()
+    body = {           
+        "query": {
+		    "bool": {
+		        "filter": [{ "match": { "category" : category} }], 
+                "must": [{ "match": {"title": title} }]
+		    }
+	    },
+	    "_source": {
+		    "includes": ["title", "content", "category", "image", "url", "who"]
+	    }
+    }
 
+    return es.search(index="dictionary-*", body=body)
 
+def searchDataWho(title, who):
+    es = Elasticsearch()
+    body = {           
+        "query": {
+		    "bool": {
+		        "filter": [{ "match": { "who" : who} }], 
+                "must": [{ "match": {"title": title} }]
+		    }
+	    },
+	    "_source": {
+		    "includes": ["title", "content", "category", "image", "url", "who"]
+	    }
+    }
+
+    return es.search(index="dictionary-*", body=body)
