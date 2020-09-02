@@ -4,6 +4,10 @@ from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from . import search
 from django.contrib.auth.decorators import login_required
+from elasticsearch import Elasticsearch
+from datetime import datetime
+import pprint
+
 
 # main window
 def index(request):
@@ -29,10 +33,22 @@ def pdf_view(request):
 def post_result(request):
     # success  to POST data
     if request.method == 'POST':
-        keyword = request.POST.get('search_key', None)
-        keywords={'keyword': keyword}
-        print(keywords['keyword'])
-        return JsonResponse(keywords)
+        title = request.POST.get('search_title', None)
+        content = request.POST.get('search_content', None)
+        
+        data = search.searchDataContent(title,content)
+        
+        keywords =[]
+        for i in range(0,4):
+            keywords.append({
+                   'title': data['hits']['hits'][i]['_source']['title'],
+                   'content' : data['hits']['hits'][i]['_source']['content']
+            })
+
+            
+       # pprint.pprint(keywords, indent=5)
+
+        return JsonResponse(list(keywords), safe=False)
     # Fail to POST data
     else:
         message = "잘못된 접근입니다."
@@ -43,5 +59,7 @@ def post_result(request):
 @csrf_exempt
 def post_data(request):
     if request.method == 'POST':
-        data = request.POST.get('title_data', None)
-    return HttpResponse(data)              
+        title = request.POST.get('title_data', None)
+        content = request.POST.get('content_data', None)
+
+    #return HttpResponse(data)              

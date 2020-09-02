@@ -65,3 +65,4 @@ def searchDataWho(title, who):
     }
 
     return es.search(index="dictionary-*", body=body)
+
