@@ -36,17 +36,32 @@ def post_result(request):
         title = request.POST.get('search_title', None)
         content = request.POST.get('search_content', None)
         
-        data = search.searchDataContent(title,content)
-        
+        data = search.search_data_content(title,content)
+        pprint.pprint(data, indent=5)
+
         keywords =[]
-        for i in range(0,4):
-            keywords.append({
-                   'title': data['hits']['hits'][i]['_source']['title'],
-                   'content' : data['hits']['hits'][i]['_source']['content']
-            })
+        length = data['hits']['total']['value']
+        if length > 5:
+            for i in range(0,5):
+                 keywords.append({
+                    'title': data['hits']['hits'][i]['_source']['title'],
+                    'content' : data['hits']['hits'][i]['_source']['content']
+                 })
+        else :
+            for i in range(0,length):
+                 keywords.append({
+                       'title': data['hits']['hits'][i]['_source']['title'],
+                       'content' : data['hits']['hits'][i]['_source']['content']
+                 })
+            for j in range(length,5):
+                keywords.append({
+                    'title' : "내용없음 ",
+                    'content': "내용없음 "
+                })
+
 
             
-       # pprint.pprint(keywords, indent=5)
+        #pprint.pprint(data, indent=5)
 
         return JsonResponse(list(keywords), safe=False)
     # Fail to POST data

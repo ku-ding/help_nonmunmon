@@ -429,7 +429,7 @@ See https://github.com/adobe-type-tools/cmap-resources
     
        <!-- 여기를 꾸밉시다. -->
          <form id = 'myform' action="."  method="POST"> {% csrf_token %}
-           <input type= "hidden" name="title" id = "title" value="">
+		 <!-- <input type= "hidden" name="title" id = "title" value="">-->
            <input type = "text" name= "search" id="search" value =""  >
 	   content: <input type= "text" name="content_data" id="content_data" value="">
            <input type ="button" id="search_button" value ="검색" class = "btn btn-primary" ></input>
@@ -442,10 +442,22 @@ See https://github.com/adobe-type-tools/cmap-resources
   <div  id="text_box"></div>
  
   <footer id= "fooc">
-   title: <div id ="container_search">
+   title: <div id ="container_search0">
    </div>
-   content: <div id = "content_search"></div>		 
-  </footer>
+   content: <div id = "content_search0"></div>		 
+   title: <div id ="container_search1">
+   </div>
+   content: <div id = "content_search1"></div>
+   title: <div id ="container_search2">
+   </div>
+   content: <div id = "content_search2"></div>
+   title: <div id ="container_search3">
+   </div>
+   content: <div id = "content_search3"></div>
+   title: <div id ="container_search4">
+   </div>
+   content: <div id = "content_search4"></div>
+   </footer>
  </div>
     
 </div> <!-- TextContainer -->
@@ -474,9 +486,21 @@ See https://github.com/adobe-type-tools/cmap-resources
   }
      document.getElementById("search_button").addEventListener("click", function(){
      
-      var search_title = document.getElementById("search").value;
-      var search_content = document.getElementById("content_data").value;
+        var search_title = document.getElementById("search").value;
+        var search_content = document.getElementById("content_data").value;
 
+		//document.getElementById("container_search0").html(" ");
+		//document.getElementById("#content_search0").html(" ");
+		//document.getElementById("container_search1").html(" ");
+		//document.getElementById("#content_search1").html(" ");
+		//document.getElementById("container_search2").html(" ");
+		//document.getElementById("#content_search2").html(" ");
+		//document.getElementById("container_search3").html(" ");
+		//document.getElementById("#content_search3").html(" ");
+		//document.getElementById("container_search4").html(" ");
+		//document.getElementById("#content_search4").html(" ");
+   
+	  
       $.ajax({ 
         type: "POST",
         url: '/app/request', 
@@ -486,9 +510,11 @@ See https://github.com/adobe-type-tools/cmap-resources
        	 })
         , 
         success:function(keyword){ 
-          var txt = JSON.parse(JSON.stringify(keyword));
-          $("#container_search").html(txt[0]['title']);
-	  $("#content_search").html(txt[0]['content']);
+	  var txt = JSON.parse(JSON.stringify(keyword));
+	  for(var i in keyword){
+		$("#container_search"+i).html(txt[i]['title']);
+	 	$("#content_search"+i).html(txt[i]['content']);
+	  } 
 	},
         error: function(request, status, error) {
             alert(error); 
