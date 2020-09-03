@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <!--
 Copyright 2012 Mozilla Foundation
@@ -28,7 +29,7 @@ See https://github.com/adobe-type-tools/cmap-resources
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="google" content="notranslate">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>PDF.js viewer</title>
+    <title>pdf.js</title>
 
 
     <link rel="stylesheet" href="{% static 'css/viewer.css' %}">
@@ -43,6 +44,15 @@ See https://github.com/adobe-type-tools/cmap-resources
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
+    <style>
+    #first_id {
+	 width:100%;
+         border: 5px solid black;
+    }
+    #font_white {
+	color: white;	
+    }
+    </style>
   </head>
 
   <body tabindex="1" class="loadingInProgress">
@@ -299,18 +309,10 @@ See https://github.com/adobe-type-tools/cmap-resources
 
         <div id="errorWrapper" hidden='true'>
           <div id="errorMessageLeft">
-            <span id="errorMessage"></span>
-            <button id="errorShowMore" data-l10n-id="error_more_info">
-              More Information
-            </button>
-            <button id="errorShowLess" data-l10n-id="error_less_info" hidden='true'>
-              Less Information
-            </button>
+		  <!-- <span id="erorMessage"></span>-->
+		  <span id ="Message">이곳을 눌러 PDF파일을 올려주세요</span>
           </div>
           <div id="errorMessageRight">
-            <button id="errorClose" data-l10n-id="error_close">
-              Close
-            </button>
           </div>
           <div class="clearBoth"></div>
           <textarea id="errorMoreInfo" hidden='true' readonly="readonly"></textarea>
@@ -405,66 +407,117 @@ See https://github.com/adobe-type-tools/cmap-resources
     <div id="TextContainer">
       {% block content %}
       
-    <div class = "container">
-      <div class = "jumbotron ">
-          <h2 class="text-center">{{id}}님</h2> 
-      </div>
-    </div>
+  <div class = "container-fluid" id = "first_id">
+        <div class="col-md-4" style="text-align: center;">
+          <h3 class="text-center" id = "font_white">{{id}}님</h3> 
+        </div>
+  </div>  <br>  
+
+    <div class="row"></div>
     
       <div id="printContainer"></div>
 
-      <form id= 'input_data' action = "{% url 'app:post_data' %}" method="POST">{% csrf_token %}
-        <input type="hidden" name ="user_id" id = "user_id" value = {{id}}>
-          title: <input type= "text"  name="title_data" id="title_data" value ="" >
-	  <!-- content: <input type= "text" name="content_data" id="content_data" value="">-->
-         <!-- 카테고리는 체크 박스 형태로 만드는 게 나을 듯  -->
-          category: <input type= "text"  name="category" id="category" value ="">
-        <button type = "submit" id="post_data" class = "btn btn-primary">제출</button>
-      
-      </form>
-     
+
      {% endblock %}
 
       <nav class="navbar">
-    
-       <!-- 여기를 꾸밉시다. -->
-         <form id = 'myform' action="."  method="POST"> {% csrf_token %}
-		 <!-- <input type= "hidden" name="title" id = "title" value="">-->
-           <input type = "text" name= "search" id="search" value =""  >
-	   content: <input type= "text" name="content_data" id="content_data" value="">
-           <input type ="button" id="search_button" value ="검색" class = "btn btn-primary" ></input>
+
+      <!-- 여기를 꾸밉시다. -->
+      <form id = 'myform' action="."  method="POST"> {% csrf_token %}
+           <input type= "hidden" name="title" id = "title" value="">
+          <p id = "font_white">&nbsp;&nbsp; Dragged:</p>  &nbsp;&nbsp;<input type = "text" name= "search" id="search" value =""  > <br>
+          <p id = "font_white">&nbsp;&nbsp; content:</p>  &nbsp;&nbsp;<input type= "text" name="content_data" id="content_data" value=""><br>
+
+          &nbsp;&nbsp; <input type ="button" id="search_button" value ="검색" class = "btn btn-primary" ></input>
          </form>
-
- </nav>
-
+      <br>
+     </nav>
+    
  <div id="btm_pt">
 
-  <div  id="text_box"></div>
- 
-  <footer id= "fooc">
-   title: <div id ="container_search0">
-   </div>
-   content: <div id = "content_search0"></div>		 
-   title: <div id ="container_search1">
-   </div>
-   content: <div id = "content_search1"></div>
-   title: <div id ="container_search2">
-   </div>
-   content: <div id = "content_search2"></div>
-   title: <div id ="container_search3">
-   </div>
-   content: <div id = "content_search3"></div>
-   title: <div id ="container_search4">
-   </div>
-   content: <div id = "content_search4"></div>
-   </footer>
+   <footer id= "fooc">
+	title: <div id ="container_search0">
+	</div>
+	content: <div id = "content_search0"></div>
+	url:<div id = "url_search0"></div>
+	image:<div id = "image_search0"></div>
+	category:<div id = "category_search0"></div>
+	who:<div id = "who_search0"></div>
+	        title: <div id ="container_search1">
+        </div>
+        content: <div id = "content_search1"></div>
+        url:<div id = "url_search1"></div>
+        image:<div id = "image_search1"></div>
+        category:<div id = "category_search1"></div>
+        who:<div id = "who_search1"></div>
+	        title: <div id ="container_search2">
+        </div>
+        content: <div id = "content_search2"></div>
+        url:<div id = "url_search2"></div>
+        image:<div id = "image_search2"></div>
+        category:<div id = "category_search2"></div>
+        who:<div id = "who_search2"></div>
+	        title: <div id ="container_search3">
+        </div>
+        content: <div id = "content_search3"></div>
+        url:<div id = "url_search3"></div>
+        image:<div id = "image_search3"></div>
+        category:<div id = "category_search3"></div>
+        who:<div id = "who_search3"></div>
+	        title: <div id ="container_search4">
+        </div>
+        content: <div id = "content_search4"></div>
+        url:<div id = "url_search4"></div>
+        image:<div id = "image_search4"></div>
+        category:<div id = "category_search4"></div>
+        who:<div id = "who_search4"></div>
+    </footer>
  </div>
     
 </div> <!-- TextContainer -->
    
 
 <script>
-           
+
+//for(var k=0; k<5; k++){
+	// $("fooc").html("title :<div id = container_search"+i+"></div>");
+//	var i = 1;
+//	var title = document.createElement( 'div' );
+//	title.id = "container_search"+i;
+//	var content = document.createElement('div');
+//	content.id = "content_search"+i;
+//	var url =document.createElement( 'div' );
+//	url.id="url_search"+i;
+//	var image=document.createElement( 'div' );
+//	image.id="image_search"+i;
+//	var category=document.createElement( 'div' );
+//	category.id="category_search"+i;
+//	var who=document.createElement( 'div' );
+//	who.id="who_search"+i;
+//	var newTitle = document.createTextNode("title:");
+//	var newContent = document.createTextNode("content:");
+//	var newUrl = document.createTextNode("url:");
+//	var newImage= document.createTextNode("image:");
+//	var newCategory = document.createTextNode("category:");
+//	var newWho = document.createTextNode("who:");
+//  	document.getElementById("btm_pt").appendChild(title); 
+//	document.getElementById("btm_pt").appendChild(content);
+//	document.getElementById("btm_pt").appendChild(url);
+//	document.getElementById("btm_pt").appendChild(image);
+//	document.getElementById("btm_pt").appendChild(category);
+//	document.getElementById("btm_pt").appendChild(who);
+//	title.appendChild(newTitle); 
+//	content.appendChild(newContent); 
+//	url.appendChild(newUrl);
+//	image.appendChild(newImage); 
+//	category.appendChild(newCategory); 
+//	who.appendChild(newWho); 
+
+
+//}
+	
+
+
   function selectText() {
     var selectionText = "";
      if (document.getSelection) {
@@ -488,18 +541,7 @@ See https://github.com/adobe-type-tools/cmap-resources
      
         var search_title = document.getElementById("search").value;
         var search_content = document.getElementById("content_data").value;
-
-		//document.getElementById("container_search0").html(" ");
-		//document.getElementById("#content_search0").html(" ");
-		//document.getElementById("container_search1").html(" ");
-		//document.getElementById("#content_search1").html(" ");
-		//document.getElementById("container_search2").html(" ");
-		//document.getElementById("#content_search2").html(" ");
-		//document.getElementById("container_search3").html(" ");
-		//document.getElementById("#content_search3").html(" ");
-		//document.getElementById("container_search4").html(" ");
-		//document.getElementById("#content_search4").html(" ");
-   
+ 
 	  
       $.ajax({ 
         type: "POST",
@@ -514,6 +556,10 @@ See https://github.com/adobe-type-tools/cmap-resources
 	  for(var i in keyword){
 		$("#container_search"+i).html(txt[i]['title']);
 	 	$("#content_search"+i).html(txt[i]['content']);
+		$("#url_search"+i).html(txt[i]['url']);
+		$("#image_search"+i).html(txt[i]['image']);
+		$("#category_search"+i).html(txt[i]['category']);
+		$("#who_search"+i).html(txt[i]['who']);
 	  } 
 	},
         error: function(request, status, error) {

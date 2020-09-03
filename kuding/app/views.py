@@ -45,18 +45,31 @@ def post_result(request):
             for i in range(0,5):
                  keywords.append({
                     'title': data['hits']['hits'][i]['_source']['title'],
-                    'content' : data['hits']['hits'][i]['_source']['content']
+                    'content' : data['hits']['hits'][i]['_source']['content'],
+                    'url':data['hits']['hits'][i]['_source']['url'],
+                    'image':data['hits']['hits'][i]['_source']['image'],
+                    'category': data['hits']['hits'][i]['_source']['category'],
+                    'who':data['hits']['hits'][i]['_source']['who']
                  })
         else :
             for i in range(0,length):
                  keywords.append({
                        'title': data['hits']['hits'][i]['_source']['title'],
-                       'content' : data['hits']['hits'][i]['_source']['content']
+                       'content' : data['hits']['hits'][i]['_source']['content'],
+                       'url':data['hits']['hits'][i]['_source']['url'],
+                       'image':data['hits']['hits'][i]['_source']['image'],
+                       'category': data['hits']['hits'][i]['_source']['category'],
+                       'who':data['hits']['hits'][i]['_source']['who']
+
                  })
             for j in range(length,5):
                 keywords.append({
                     'title' : "내용없음 ",
-                    'content': "내용없음 "
+                    'content': "내용없음 ",
+                    'url': "내용없음 ",
+                    'imgae': "내용없음 ",
+                    'category': "내용없음 ",
+                    'who': "내용없음 "
                 })
 
 
