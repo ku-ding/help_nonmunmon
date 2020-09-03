@@ -2,7 +2,7 @@ from elasticsearch import Elasticsearch
 from datetime import datetime
 
 #User can input custum dictionary
-def insertData(title, content, url, image, category, who):
+def insert_data(title, content, url, image, category, who):
     es = Elasticsearch()
 
     doc = {   
@@ -18,7 +18,7 @@ def insertData(title, content, url, image, category, who):
     es.index(index = "dictionary-user", body = doc)
 
 
-def searchDataContent(title, content):
+def search_data_content(title, content):
     es = Elasticsearch()
     body = {           
         "query": {
@@ -34,7 +34,7 @@ def searchDataContent(title, content):
 
     return es.search(index="dictionary-*", body=body)
 
-def searchDataCategory(title, category):
+def search_data_category(title, category):
     es = Elasticsearch()
     body = {           
         "query": {
@@ -50,7 +50,7 @@ def searchDataCategory(title, category):
 
     return es.search(index="dictionary-*", body=body)
 
-def searchDataWho(title, who):
+def search_data_who(title, who):
     es = Elasticsearch()
     body = {           
         "query": {
