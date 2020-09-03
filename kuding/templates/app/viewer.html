@@ -21,7 +21,7 @@ Adobe CMap resources are covered by their own copyright but the same license:
 See https://github.com/adobe-type-tools/cmap-resources
 -->
 {% load static %}
-
+{% load bootstrap4 %}
 <html lang="ko" dir="ltr" mozdisallowselectionprint>
   <head>
     <meta charset="utf-8">
@@ -40,6 +40,8 @@ See https://github.com/adobe-type-tools/cmap-resources
 
 
     <script src="{% static 'js/viewer.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
   </head>
 
@@ -48,7 +50,7 @@ See https://github.com/adobe-type-tools/cmap-resources
     <div id = "top"></div>
     <div id = "bottom"></div>  
     </div>
-
+  
     <div id="outerContainer">
 
       <div id="sidebarContainer">
@@ -399,35 +401,155 @@ See https://github.com/adobe-type-tools/cmap-resources
       </div>  <!-- overlayContainer -->
 
     </div> <!-- outerContainer -->
+  
     <div id="TextContainer">
-      <div id="text_box">
-
+      {% block content %}
+      
+    <div class = "container">
+      <div class = "jumbotron ">
+          <h2 class="text-center">{{id}}님</h2> 
       </div>
-      		
-      	 </div> <!-- TextContainer -->
-    <div id="printContainer"></div>
-    <form action="."  method="POST"> {% csrf_token %}
-	    
-	    <input type = "hidden" name= "search" id="search" value =""  >
-	    <!-- <input type = "submit">-->
-	<script>
-	    function selectText() {
-  var selectionText = "";
-  if (document.getSelection) {
-      selectionText = document.getSelection();
-  } else if (document.selection) {
-      selectionText = document.selection.createRange().text;
-  }
-  return selectionText;
-}
+    </div>
+    
+      <div id="printContainer"></div>
 
-document.onmouseup = function() {
-  document.getElementById("text_box").innerHTML = selectText();
-  document.getElementById('search').value = selectText();
-}
-	</script>
-	    <button type ="submit" id="search_button" class = "btn btn-primary">검색</button>
-	
-    </form>
+      <form id= 'input_data' action = "{% url 'app:post_data' %}" method="POST">{% csrf_token %}
+        <input type="hidden" name ="user_id" id = "user_id" value = {{id}}>
+          title: <input type= "text"  name="title_data" id="title_data" value ="" >
+	  <!-- content: <input type= "text" name="content_data" id="content_data" value="">-->
+         <!-- 카테고리는 체크 박스 형태로 만드는 게 나을 듯  -->
+          category: <input type= "text"  name="category" id="category" value ="">
+        <button type = "submit" id="post_data" class = "btn btn-primary">제출</button>
+      
+      </form>
+     
+     {% endblock %}
+
+      <nav class="navbar">
+    
+       <!-- 여기를 꾸밉시다. -->
+         <form id = 'myform' action="."  method="POST"> {% csrf_token %}
+		 <!-- <input type= "hidden" name="title" id = "title" value="">-->
+           <input type = "text" name= "search" id="search" value =""  >
+	   content: <input type= "text" name="content_data" id="content_data" value="">
+           <input type ="button" id="search_button" value ="검색" class = "btn btn-primary" ></input>
+         </form>
+
+ </nav>
+
+ <div id="btm_pt">
+
+  <div  id="text_box"></div>
+ 
+  <footer id= "fooc">
+   title: <div id ="container_search0">
+   </div>
+   content: <div id = "content_search0"></div>		 
+   title: <div id ="container_search1">
+   </div>
+   content: <div id = "content_search1"></div>
+   title: <div id ="container_search2">
+   </div>
+   content: <div id = "content_search2"></div>
+   title: <div id ="container_search3">
+   </div>
+   content: <div id = "content_search3"></div>
+   title: <div id ="container_search4">
+   </div>
+   content: <div id = "content_search4"></div>
+   </footer>
+ </div>
+    
+</div> <!-- TextContainer -->
+   
+
+<script>
+           
+  function selectText() {
+    var selectionText = "";
+     if (document.getSelection) {
+         selectionText = document.getSelection();
+     } else if (document.selection) {
+         selectionText = document.selection.createRange().text;
+     }
+      return selectionText;
+  }
+  document.onmouseup = function() {
+    if(selectText() != ""){
+      document.getElementById('search').value = selectText();    
+    }
+    else { 
+      
+     // bring whole text
+     //  document.getElementById('title').value = document.body.childNodes[3].childNodes[5].childNodes[13].childNodes[1].textContent;
+    }
+  }
+     document.getElementById("search_button").addEventListener("click", function(){
+     
+        var search_title = document.getElementById("search").value;
+        var search_content = document.getElementById("content_data").value;
+
+		//document.getElementById("container_search0").html(" ");
+		//document.getElementById("#content_search0").html(" ");
+		//document.getElementById("container_search1").html(" ");
+		//document.getElementById("#content_search1").html(" ");
+		//document.getElementById("container_search2").html(" ");
+		//document.getElementById("#content_search2").html(" ");
+		//document.getElementById("container_search3").html(" ");
+		//document.getElementById("#content_search3").html(" ");
+		//document.getElementById("container_search4").html(" ");
+		//document.getElementById("#content_search4").html(" ");
+   
+	  
+      $.ajax({ 
+        type: "POST",
+        url: '/app/request', 
+      	 data : ({
+        	 'search_title': search_title,
+         	 'search_content': search_content
+       	 })
+        , 
+        success:function(keyword){ 
+	  var txt = JSON.parse(JSON.stringify(keyword));
+	  for(var i in keyword){
+		$("#container_search"+i).html(txt[i]['title']);
+	 	$("#content_search"+i).html(txt[i]['content']);
+	  } 
+	},
+        error: function(request, status, error) {
+            alert(error); 
+        }
+      
+      });
+    });
+    
+  //add to dynamic button for advanced code
+   // funclition create(a){
+   //   var button = document.createElement( 'input' );
+   //   button.setAttribute('type', 'submit');
+   //   button.setAttribute('id', 'search_button');
+   //   button.setAttribute('class', "btn btn-primary");
+   //   button.setAttribute('value', '검색');
+   //   button.onclick= function(){
+   //     document.getElementById("myform").submit();  
+   //   }
+
+   //   if(a == ''){
+   //     button.parentNode.removeChild(button);
+   //   }
+
+   //   else{
+   //     document.getElementById("text_box").appendChild( button );
+       
+   //   }
+    
+     
+   // }
+   // function goPost(){
+   //   document.getElementById("myform").submit()
+   // }
+</script>
+         
   </body>
 </html>
+

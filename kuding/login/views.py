@@ -1,34 +1,28 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.contrib.auth.models import User
-from django.contrib import auth
-from django.contrib.auth.hashers import make_password, check_password
-# Create your views here.
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.views import LoginView, LogoutView
+from django.shortcuts import render,redirect
+from django.views.generic import CreateView
 
-def login(request):
+# for signup 
+signup = CreateView.as_view(
+    form_class=UserCreationForm,
+    template_name='form.html',
+    success_url=settings.LOGIN_URL,
+)
 
- response_data = {}
+#for login
+login = LoginView.as_view(
+    template_name='form.html',
+)
 
- if request.method == "GET" :
-        return render(request, 'login/login.html')
+#for logout
+logout = LogoutView.as_view(
+    next_page='/app',
+)
 
- elif request.method == "POST":
-        login_username = request.POST.get('username', None)
-        login_password = request.POST.get('password', None)
-        
-        if not (login_username and login_password):
-                 response_data['error']="아이디와 비밀번호를 모두 입력해주세요."
-        else : 
-            try:
-                myuser = User.objects.get(username=login_username) 
-            
-            
-                if check_password(login_password, myuser.password):
-                    request.session['user'] = myuser.id 
-                    return redirect('/app')
-                else:
-                    response_data['error'] = "비밀번호를 틀렸습니다."
-            except:
-                    response_data['error'] = "없는 아이디 입니다."
-
-        return render(request, 'login/login.html',response_data)
+#access next to login
+@login_required
+def profile(request):
+    return redirect('/app')
