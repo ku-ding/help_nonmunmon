@@ -429,7 +429,7 @@ html {
 body {
   height: 100%;
   width: 100%;
-  background-color: white;
+  background-color: #808080f2;
   background-image: url(images/texture.png);
 }
 
@@ -549,13 +549,24 @@ select {
   height: 100%;
   position: relative;
   float: left;
+
 }
 
 #TextContiner {
-  width: 20%;
+  width: 30%;
   height: 100%;
   float: right;
+  overflow :scroll;
 }
+
+#btm_pt{
+	height:100%;
+	overflow:hidden;
+}
+#fooc{
+	float:bottom;
+}
+
 
 #sidebarContainer {
   position: absolute;
@@ -1838,7 +1849,7 @@ html[dir='rtl'] .outlineItemToggler::before {
 }
 
 #errorWrapper {
-  background: none repeat scroll 0 0 rgba(255, 85, 85, 1);
+  background: none repeat scroll 0 0 rgba(83, 116, 33, 1);
   color: rgba(255, 255, 255, 1);
   left: 0;
   position: absolute;

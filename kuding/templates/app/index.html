@@ -14,7 +14,7 @@
 
 		
 
-        <title> 쿠딩 </title>
+        <title>도와줘요!논문몬  </title>
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">  
 
@@ -26,7 +26,7 @@
 
             .jumbotron {
 
-                background-image: url('../../static/jumboBackground.jpg ');
+                background-image: url('../../static/bacckground.png ');
 
                 background-size: cover;
 
@@ -40,13 +40,13 @@
 
         
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white">
 
 			
 
             <a class="navbar-brand" href= "{% url 'root' %}">
 
-				<img src='{% static "kuding.jpg" %}'  class="img-rounded" width="100" height="100" alt="kuding-logo">Kuding</a>
+				<img src='{% static "help.png" %}'  class="img-rounded" width="190" height="60" alt="kuding-logo"></a>
 
             
 
@@ -61,9 +61,12 @@
 				<div>
 
 					{% if user.is_authenticated %}
+					<div class="btn-group">
+						<p class="text-center"><a class = "btn btn-outline-success my-2 my-sm-0" href="{% url 'app:pdf_view'%}" role = "button">도와줘요! 논문몬</a>
 
 						<a href="{% url 'logout' %}" class="btn btn-outline-success my-2 my-sm-0">로그아웃</a>
 
+					</div>
 					{% else %}
 
 						<a href="{% url 'login' %}" class="btn btn-outline-success my-2 my-sm-0">로그인</a>
@@ -80,51 +83,14 @@
 
         </nav>
 
-       
+	<div class = "container">
+		<div class = "jumbotron" style = "height:290px; "> 
+		</div>
+	</div>      
+   
 
-        <div class = "container">
-
-            <div class = "jumbotron">
-
-                <h1 class="text-center">쿠딩을 소개합니다</h1>
-
-				<p class="text-center">건국대 학생들입니다</p>
-
-				{% if user.is_authenticated %}
-
-                <p class="text-center"><a class="btn btn-primary btn-lg" href="{% url 'app:pdf_view'%}" role = "button">논문 도움받으러 가기</a></p>
-
-				{% else %}
-
-				<p class="text-center"><a class="btn btn-primary btn-lg" href="{% url 'login' %}" role = "button">로그인을 해주세요</a></p>
-
-				
-
-				{% endif %}
-
-				
-
-            </div>
-
-        </div>
-
-        
-
-        <div class="row">
-
-            <div class="col-md-12 text-center">
-
-                <h4>Kuding의 특징</h4>
-
-                <p>논문을 보기쉽게 해줍니다</p>
-
-            </div>
-
-        </div>
-
-
-
-        <footer style="background-color: #000000; color: #ffffff;">
+	<br><br><br>
+        <footer style="background-color: #555353; color: #ffffff;">
 
             <div class = "container">
 
